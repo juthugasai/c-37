@@ -1,25 +1,50 @@
 class Player{
     constructor(){
 
+        this.distance=0;
+        this.name=null;
+        this.index=null;
+        
+
     }
 
     getCount(){
-        var pcref=database.ref("playercount");
+        var pcref=database.ref("playerCount");
         pcref.on("value",function(data){
-            playercount=data.val();
+            playerCount=data.val();
         })
     }
 
-    update(name){
-    var playerindex="player"+playercount;
+    update(){
+    var playerindex="players/player"+this.index;
     database.ref(playerindex).set({
-        Name:name
+        name:this.name,
+        distance:this.distance
+
+
     })
     }
 
     updateCount(count){
         database.ref("/").update({
-            playercount:count
+            playerCount:count
         })
     }
+
+    static getPlayerInfo(){
+        var piref =database.ref("players");
+        piref.on("value",(data)=>{
+            allPlayers=data.val();
+
+        } ); 
+
+    }
 }
+
+//static - common functions which are called by the class themselves & not by the objects of the class
+/*
+Arrow function
+()=>
+-to create shorter functions
+- to create when name of functions are not required
+*/
